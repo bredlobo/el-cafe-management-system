@@ -3,12 +3,15 @@ import Dashboard from "./Dashboard";
 import LaporanHarian from "./LaporanHarian";
 
 const OwnerIndex = ({ orders = [] }) => {
-  // Hanya tersisa 2 tab: Dashboard dan Laporan Harian
+  // State untuk navigasi tab
   const [activeTab, setActiveTab] = useState("dashboard");
 
+  // Jika orders tidak sengaja terkirim null/undefined, amankan jadi array kosong
+  const safeOrders = Array.isArray(orders) ? orders : [];
+
   return (
-    <div style={{ padding: "20px", color: "#F5EDD6" }}>
-      {/* TABS NAVIGATION - Transaksi sudah dihapus */}
+    <div style={{ padding: "10px", color: "#F5EDD6" }}>
+      {/* TABS NAVIGATION */}
       <div
         style={{
           display: "flex",
@@ -38,9 +41,10 @@ const OwnerIndex = ({ orders = [] }) => {
         ))}
       </div>
 
-      {/* RENDER KONTEN BERDASARKAN TAB */}
-      {activeTab === "dashboard" && <Dashboard orders={orders} />}
-      {activeTab === "laporan harian" && <LaporanHarian orders={orders} />}
+      {/* RENDER KONTEN */}
+      {/* Menggunakan safeOrders agar komponen anak tidak error saat map data */}
+      {activeTab === "dashboard" && <Dashboard orders={safeOrders} />}
+      {activeTab === "laporan harian" && <LaporanHarian orders={safeOrders} />}
     </div>
   );
 };
