@@ -1,28 +1,28 @@
 export const menus = [
-  { id: 1, name: 'Americano', desc: 'Espresso + air panas', price: 28000, cat: 'coffee', icon: '☕' },
-  { id: 2, name: 'Cappuccino', desc: 'Espresso + susu steam', price: 32000, cat: 'coffee', icon: '☕' },
-  { id: 3, name: 'Cold Brew', desc: 'Kopi cold brew 12 jam', price: 35000, cat: 'noncoffee', icon: '🧊' },
-  { id: 4, name: 'Latte', desc: 'Espresso + milk foam', price: 33000, cat: 'coffee', icon: '☕' },
-  { id: 5, name: 'Matcha Latte', desc: 'Matcha premium + susu', price: 38000, cat: 'noncoffee', icon: '🍵' },
-  { id: 6, name: 'Thai Tea', desc: 'Teh Thailand original', price: 25000, cat: 'noncoffee', icon: '🧋' },
-  { id: 7, name: 'Croissant', desc: 'Renyah mentega Perancis', price: 22000, cat: 'snack', icon: '🥐' },
-  { id: 8, name: 'Cheesecake', desc: 'New York style', price: 35000, cat: 'snack', icon: '🍰' },
-  { id: 9, name: 'Lemonade', desc: 'Segar asam manis', price: 22000, cat: 'noncoffee', icon: '🍋' },
+  { id: 1, name: "Mie", price: 8000, cat: "snack", icon: "🍜" },
+  { id: 2, name: "Mie Telur", price: 13000, cat: "snack", icon: "🍳" },
+  { id: 3, name: "Popcorn", price: 7000, cat: "snack", icon: "🍿" },
+  { id: 4, name: "Kentang Goreng", price: 15000, cat: "snack", icon: "🍟" },
+  { id: 5, name: "Pisang Meses", price: 17000, cat: "snack", icon: "🍌" },
+  { id: 6, name: "Kopi Hitam", price: 10000, cat: "coffee", icon: "☕" },
+  { id: 7, name: "Ice Tea", price: 5000, cat: "noncoffee", icon: "🍹" },
+  { id: 8, name: "Thai Tea", price: 12000, cat: "noncoffee", icon: "🥤" },
+  { id: 9, name: "Golda", price: 6000, cat: "coffee", icon: "🧋" },
+  { id: 10, name: "Ice Coffee", price: 15000, cat: "coffee", icon: "🧊" },
+  { id: 11, name: "Sprite", price: 6000, cat: "noncoffee", icon: "🥤" },
+  { id: 12, name: "Mineral", price: 7000, cat: "noncoffee", icon: "💧" },
+  { id: 13, name: "Joshua", price: 10000, cat: "noncoffee", icon: "🍺" },
+  { id: 14, name: "Nutrisari", price: 5000, cat: "noncoffee", icon: "🍊" },
 ];
 
 export const tables = [
   { id: 1, name: 'Meja 1', occupied: false },
   { id: 2, name: 'Meja 2', occupied: true },
   { id: 3, name: 'Meja 3', occupied: false },
-  { id: 4, name: 'Meja 4', occupied: true },
-  { id: 5, name: 'Meja 5', occupied: false },
-  { id: 6, name: 'Meja 6', occupied: false },
-  { id: 7, name: 'Meja 7', occupied: false },
-  { id: 8, name: 'Meja 8', occupied: true },
 ];
 
 export const billiards = [
-  { id: 1, name: "Billiard 1", occupied: false },
-  { id: 2, name: "Billiard 2", occupied: true },
-  { id: 3, name: "Billiard 3", occupied: false },
+  { id: 1, name: "Billiard 1 (VIP + Karaoke)", type: "VIP", price: 45000 },
+  { id: 2, name: "Billiard 2", type: "Regular", price: 40000 },
+  { id: 3, name: "Billiard 3", type: "Regular", price: 40000 },
 ];

@@ -1,127 +1,238 @@
 import React, { useState } from "react";
+import { User, Lock, Coffee, ChevronRight } from "lucide-react";
 
 const Login = ({ onLoginSuccess }) => {
-  const [role, setRole] = useState("kasir"); // Toggle antara kasir/owner
+  const [role, setRole] = useState("kasir"); // "kasir" atau "owner"
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("http://localhost:8080/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password, role }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem("userRole", data.role);
+        onLoginSuccess(data.role);
+      } else {
+        alert(data.error);
+      }
+    } catch (error) {
+      alert("Backend-nya belum nyala, Bred!");
+    }
+  };
 
   return (
-    <div
-      className="login-container"
-      style={{ padding: "40px 20px", textAlign: "center" }}
-    >
-      <h2
-        style={{
-          fontFamily: "Playfair Display",
-          color: "#C9A84C",
-          marginBottom: "24px",
-        }}
-      >
-        Staff Portal
-      </h2>
+    <div style={styles.container}>
+      {/* Background Decor */}
+      <div style={styles.bgDecor} />
+      
+      <div style={styles.loginWrapper}>
+        <div style={styles.headerArea}>
+          <div style={styles.iconCircle}>
+            <Coffee size={32} color="#C9A84C" />
+          </div>
+          <h1 style={styles.title}>EL CAFÉ</h1>
+          <p style={styles.subtitle}>Staff Management Portal</p>
+        </div>
 
-      {/* Switch Role Login */}
-      <div
-        style={{
-          display: "flex",
-          gap: "10px",
-          justifyContent: "center",
-          marginBottom: "30px",
-        }}
-      >
-        <button
-          onClick={() => setRole("kasir")}
-          style={role === "kasir" ? styles.activeTab : styles.inactiveTab}
-        >
-          Kasir
-        </button>
-        <button
-          onClick={() => setRole("owner")}
-          style={role === "owner" ? styles.activeTab : styles.inactiveTab}
-        >
-          Owner
-        </button>
-      </div>
+        {/* Tab Switcher */}
+        <div style={styles.tabContainer}>
+          <button 
+            onClick={() => setRole("kasir")} 
+            style={role === "kasir" ? styles.activeTab : styles.inactiveTab}
+          >
+            Kasir
+          </button>
+          <button 
+            onClick={() => setRole("owner")} 
+            style={role === "owner" ? styles.activeTab : styles.inactiveTab}
+          >
+            Owner
+          </button>
+        </div>
 
-      <div style={styles.loginCard}>
-        {role === "kasir" ? (
-          <>
-            <input
-              type="text"
-              placeholder="Username Kasir"
-              style={styles.input}
-            />
-            <input
-              type="password"
-              placeholder="PIN (4-6 Digit)"
-              style={styles.input}
-            />
-          </>
-        ) : (
-          <>
-            <input
-              type="email"
-              placeholder="Email Owner"
-              style={styles.input}
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              style={styles.input}
-            />
-          </>
-        )}
-        <button
-          onClick={() => onLoginSuccess(role)} // Simulasi login berhasil
-          style={styles.btnLogin}
-        >
-          Masuk Sekarang
-        </button>
+        <div style={styles.loginCard}>
+          <form onSubmit={handleLogin}>
+            <div style={styles.inputGroup}>
+              <User size={18} style={styles.inputIcon} />
+              <input
+                type="text"
+                placeholder={role === "kasir" ? "Username Kasir" : "Username Owner"}
+                style={styles.input}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              />
+            </div>
+
+            <div style={styles.inputGroup}>
+              <Lock size={18} style={styles.inputIcon} />
+              <input
+                type="password"
+                placeholder={role === "kasir" ? "PIN Kasir" : "Password Owner"}
+                style={styles.input}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+
+            <button type="submit" style={styles.btnLogin}>
+              MASUK SEKARANG <ChevronRight size={18} />
+            </button>
+          </form>
+        </div>
+
+        <p style={styles.footerText}>© 2026 EL CAFÉ & Billiard System</p>
       </div>
     </div>
   );
 };
 
+// --- STYLES (Mewah & Presisi) ---
 const styles = {
-  loginCard: {
-    background: "#1A1410",
-    padding: "30px",
-    borderRadius: "16px",
-    border: "1px solid #C9A84C",
+  container: {
+    height: "100vh",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    background: "#0E0B08", // Hitam pekat cafe
+    position: "relative",
+    overflow: "hidden",
   },
-  input: {
+  bgDecor: {
+    position: "absolute",
+    width: "500px",
+    height: "500px",
+    background: "radial-gradient(circle, rgba(201,168,76,0.1) 0%, rgba(0,0,0,0) 70%)",
+    top: "-100px",
+    right: "-100px",
+    zIndex: 0,
+  },
+  loginWrapper: {
     width: "100%",
+    maxWidth: "450px", // Diperlebar dari 350px
+    padding: "20px",
+    zIndex: 1,
+  },
+  headerArea: {
+    textAlign: "center",
+    marginBottom: "40px",
+  },
+  iconCircle: {
+    width: "70px",
+    height: "70px",
+    background: "rgba(201,168,76,0.05)",
+    borderRadius: "50%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    margin: "0 auto 15px",
+    border: "1px solid rgba(201,168,76,0.2)",
+  },
+  title: {
+    fontFamily: "'Playfair Display', serif",
+    color: "#C9A84C",
+    fontSize: "36px",
+    margin: 0,
+    letterSpacing: "4px",
+  },
+  subtitle: {
+    color: "#9E8B6E",
+    fontSize: "14px",
+    marginTop: "5px",
+    letterSpacing: "1px",
+  },
+  tabContainer: {
+    display: "flex",
+    gap: "10px",
+    background: "rgba(255,255,255,0.02)",
+    padding: "5px",
+    borderRadius: "12px",
+    marginBottom: "20px",
+    border: "1px solid rgba(255,255,255,0.05)",
+  },
+  activeTab: {
+    flex: 1,
     padding: "12px",
-    marginBottom: "15px",
-    borderRadius: "8px",
-    border: "1px solid rgba(201,168,76,0.3)",
-    background: "#251E16",
-    color: "#F5EDD6",
-  },
-  btnLogin: {
-    width: "100%",
-    padding: "14px",
     borderRadius: "8px",
     border: "none",
     background: "#C9A84C",
     color: "#0E0B08",
     fontWeight: "bold",
     cursor: "pointer",
-  },
-  activeTab: {
-    padding: "8px 20px",
-    borderRadius: "20px",
-    border: "1px solid #C9A84C",
-    background: "#C9A84C",
-    color: "#0E0B08",
-    cursor: "pointer",
+    transition: "0.3s",
   },
   inactiveTab: {
-    padding: "8px 20px",
-    borderRadius: "20px",
-    border: "1px solid rgba(201,168,76,0.3)",
+    flex: 1,
+    padding: "12px",
+    borderRadius: "8px",
+    border: "none",
     background: "transparent",
     color: "#9E8B6E",
     cursor: "pointer",
+    transition: "0.3s",
   },
+  loginCard: {
+    background: "rgba(26, 20, 16, 0.5)", // Glassmorphism
+    backdropFilter: "blur(10px)",
+    padding: "40px",
+    borderRadius: "24px",
+    border: "1px solid rgba(201, 168, 76, 0.2)",
+    boxShadow: "0 20px 40px rgba(0,0,0,0.4)",
+  },
+  inputGroup: {
+    position: "relative",
+    marginBottom: "20px",
+  },
+  inputIcon: {
+    position: "absolute",
+    left: "15px",
+    top: "50%",
+    transform: "translateY(-50%)",
+    color: "#C9A84C",
+    opacity: 0.7,
+  },
+  input: {
+    width: "100%",
+    padding: "15px 15px 15px 45px",
+    borderRadius: "12px",
+    border: "1px solid rgba(201,168,76,0.1)",
+    background: "#0E0B08",
+    color: "#F5EDD6",
+    fontSize: "16px",
+    outline: "none",
+    boxSizing: "border-box",
+    transition: "0.3s",
+  },
+  btnLogin: {
+    width: "100%",
+    padding: "16px",
+    borderRadius: "12px",
+    border: "none",
+    background: "linear-gradient(135deg, #C9A84C 0%, #A68A3D 100%)",
+    color: "#0E0B08",
+    fontWeight: "bold",
+    fontSize: "16px",
+    cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "10px",
+    marginTop: "10px",
+    boxShadow: "0 10px 20px rgba(201,168,76,0.2)",
+  },
+  footerText: {
+    textAlign: "center",
+    color: "#4A4036",
+    fontSize: "12px",
+    marginTop: "30px",
+  }
 };
 
 export default Login;

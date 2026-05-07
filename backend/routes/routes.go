@@ -26,6 +26,13 @@ func SetupRouter() *gin.Engine {
         api.PUT("/orders/:id/pay", controllers.UpdateStatusPaid)
         api.PUT("/orders/:id/serve", controllers.UpdateStatusServed)
 		api.PUT("/orders/:id/cancel", controllers.UpdateStatusCancelled)
+        api.POST("/members", controllers.RegisterMember)
+        api.GET("/members", controllers.GetMembers)
+        api.GET("/members/:phone", controllers.GetMemberByPhone)
+        api.POST("/login", controllers.Login)
+        api.POST("/users", controllers.CreateUser)
+        api.GET("/users", controllers.GetUsers)
+        api.PUT("/users/update/:role", controllers.UpdateUserCredentials)
     }
 
     return r
