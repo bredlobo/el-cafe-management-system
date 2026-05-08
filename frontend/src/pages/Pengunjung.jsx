@@ -63,39 +63,28 @@ const Pengunjung = ({ onPlaceOrder, activeOrders = [] }) => {
   };
 
 // === FUNGSI VALIDASI MEMBER ASLI KE DATABASE ===
-  const handleToggleMember = async () => {
-    if (isMember) {
-      // Jika sudah aktif, klik lagi untuk matikan
-      setIsMember(false);
-      setMemberPhone("");
-    } else {
-      const phone = window.prompt("Masukkan Nomor HP Member Anda yang terdaftar:");
-      
-      if (phone && phone.trim() !== "") {
-        try {
-          // 1. Tembak API Backend untuk cek member
-          const response = await fetch(`http://localhost:8080/api/members/${phone}`);
-          const data = await response.json();
-
-          if (response.ok && data.is_active) {
-            // 2. Jika Member Ditemukan & Masih Aktif
-            setIsMember(true);
-            setMemberPhone(phone);
-            alert(`Selamat Datang, ${data.member.full_name}! Harga khusus Member telah diaktifkan.`);
-          } else if (response.status === 404) {
-            // 3. Jika Nomor Tidak Ada di DB
-            alert("Maaf, Nomor HP tidak terdaftar sebagai Member EL CAFE.");
-          } else if (!data.is_active) {
-            // 4. Jika Nomor Ada tapi sudah Expired (lewat 1 bulan)
-            alert("Masa aktif Member Anda sudah habis. Silakan perpanjang di Kasir.");
-          }
-        } catch (err) {
-          console.error("Error koneksi:", err);
-          alert("Gagal menghubungi server. Pastikan Backend sudah jalan!");
+ const handleToggleMember = async () => {
+  if (isMember) {
+    setIsMember(false);
+    setMemberPhone("");
+  } else {
+    const phone = window.prompt("Masukkan Nomor HP Member Anda yang terdaftar:");
+    if (phone && phone.trim() !== "") {
+      try {
+        // GANTI: hapus localhost
+        const response = await fetch(`/api/members/${phone}`);
+        const data = await response.json();
+        if (response.ok && data.is_active) {
+          setIsMember(true);
+          setMemberPhone(phone);
+          alert(`Selamat Datang, ${data.member.full_name}!`);
+        } else {
+          alert("Member tidak terdaftar atau sudah expired.");
         }
-      }
+      } catch (err) { alert("Gagal menghubungi server."); }
     }
-  };
+  }
+};
 
   // === LOGIKA HARGA DINAMIS (MEMBER VS NON-MEMBER) ===
   const getCurrentBilliardPrice = () => {

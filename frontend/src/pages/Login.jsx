@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import { User, Lock, Coffee, ChevronRight } from "lucide-react";
 
 const Login = ({ onLoginSuccess }) => {
-  const [role, setRole] = useState("kasir"); // "kasir" atau "owner"
+  const [role, setRole] = useState("kasir");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:8080/api/login", {
+      // GANTI: localhost dihapus agar otomatis mengikuti domain Vercel
+      const response = await fetch("/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password, role }),
@@ -24,15 +25,13 @@ const Login = ({ onLoginSuccess }) => {
         alert(data.error);
       }
     } catch (error) {
-      alert("Backend-nya belum nyala, Bred!");
+      alert("Gagal koneksi ke server, Bred!");
     }
   };
 
   return (
     <div style={styles.container}>
-      {/* Background Decor */}
       <div style={styles.bgDecor} />
-      
       <div style={styles.loginWrapper}>
         <div style={styles.headerArea}>
           <div style={styles.iconCircle}>
@@ -42,16 +41,15 @@ const Login = ({ onLoginSuccess }) => {
           <p style={styles.subtitle}>Staff Management Portal</p>
         </div>
 
-        {/* Tab Switcher */}
         <div style={styles.tabContainer}>
-          <button 
-            onClick={() => setRole("kasir")} 
+          <button
+            onClick={() => setRole("kasir")}
             style={role === "kasir" ? styles.activeTab : styles.inactiveTab}
           >
             Kasir
           </button>
-          <button 
-            onClick={() => setRole("owner")} 
+          <button
+            onClick={() => setRole("owner")}
             style={role === "owner" ? styles.activeTab : styles.inactiveTab}
           >
             Owner
@@ -64,13 +62,14 @@ const Login = ({ onLoginSuccess }) => {
               <User size={18} style={styles.inputIcon} />
               <input
                 type="text"
-                placeholder={role === "kasir" ? "Username Kasir" : "Username Owner"}
+                placeholder={
+                  role === "kasir" ? "Username Kasir" : "Username Owner"
+                }
                 style={styles.input}
                 onChange={(e) => setUsername(e.target.value)}
                 required
               />
             </div>
-
             <div style={styles.inputGroup}>
               <Lock size={18} style={styles.inputIcon} />
               <input
@@ -81,27 +80,24 @@ const Login = ({ onLoginSuccess }) => {
                 required
               />
             </div>
-
             <button type="submit" style={styles.btnLogin}>
               MASUK SEKARANG <ChevronRight size={18} />
             </button>
           </form>
         </div>
-
         <p style={styles.footerText}>© 2026 EL CAFÉ & Billiard System</p>
       </div>
     </div>
   );
 };
 
-// --- STYLES (Mewah & Presisi) ---
 const styles = {
   container: {
     height: "100vh",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    background: "#0E0B08", // Hitam pekat cafe
+    background: "#0E0B08",
     position: "relative",
     overflow: "hidden",
   },
@@ -109,21 +105,19 @@ const styles = {
     position: "absolute",
     width: "500px",
     height: "500px",
-    background: "radial-gradient(circle, rgba(201,168,76,0.1) 0%, rgba(0,0,0,0) 70%)",
+    background:
+      "radial-gradient(circle, rgba(201,168,76,0.1) 0%, rgba(0,0,0,0) 70%)",
     top: "-100px",
     right: "-100px",
     zIndex: 0,
   },
   loginWrapper: {
     width: "100%",
-    maxWidth: "450px", // Diperlebar dari 350px
+    maxWidth: "450px",
     padding: "20px",
     zIndex: 1,
   },
-  headerArea: {
-    textAlign: "center",
-    marginBottom: "40px",
-  },
+  headerArea: { textAlign: "center", marginBottom: "40px" },
   iconCircle: {
     width: "70px",
     height: "70px",
@@ -166,7 +160,6 @@ const styles = {
     color: "#0E0B08",
     fontWeight: "bold",
     cursor: "pointer",
-    transition: "0.3s",
   },
   inactiveTab: {
     flex: 1,
@@ -176,20 +169,16 @@ const styles = {
     background: "transparent",
     color: "#9E8B6E",
     cursor: "pointer",
-    transition: "0.3s",
   },
   loginCard: {
-    background: "rgba(26, 20, 16, 0.5)", // Glassmorphism
+    background: "rgba(26, 20, 16, 0.5)",
     backdropFilter: "blur(10px)",
     padding: "40px",
     borderRadius: "24px",
     border: "1px solid rgba(201, 168, 76, 0.2)",
     boxShadow: "0 20px 40px rgba(0,0,0,0.4)",
   },
-  inputGroup: {
-    position: "relative",
-    marginBottom: "20px",
-  },
+  inputGroup: { position: "relative", marginBottom: "20px" },
   inputIcon: {
     position: "absolute",
     left: "15px",
@@ -208,7 +197,6 @@ const styles = {
     fontSize: "16px",
     outline: "none",
     boxSizing: "border-box",
-    transition: "0.3s",
   },
   btnLogin: {
     width: "100%",
@@ -232,7 +220,7 @@ const styles = {
     color: "#4A4036",
     fontSize: "12px",
     marginTop: "30px",
-  }
+  },
 };
 
 export default Login;

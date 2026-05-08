@@ -1,25 +1,26 @@
-package handler // Pastikan nama package-nya handler
+package handler
 
 import (
 	"net/http"
 	"github.com/gin-gonic/gin"
-	"el-cafe-backend/config" // SESUAIKAN: ganti 'el-cafe' dengan nama module di go.mod kamu
+	"el-cafe-backend/config" 
 	"el-cafe-backend/routes"
 )
 
-// Handler adalah fungsi yang akan dipanggil Vercel setiap ada request masuk
+// Handler adalah entry point untuk Vercel Serverless
 func Handler(w http.ResponseWriter, r *http.Request) {
-	// Pastikan database terkoneksi
+	// Pastikan database terkoneksi (Singleton pattern)
 	if config.DB == nil {
 		config.ConnectDatabase()
 	}
 
-	// Buat instance Gin
-	app := gin.New() // Pakai gin.New() agar lebih ringan di Vercel
+	// Gunakan mode release agar lebih ringan di Vercel
+	gin.SetMode(gin.ReleaseMode)
+	app := gin.New()
 	
-	// Daftarkan routes kamu
+	// Daftarkan routes yang sudah kamu buat
 	routes.SetupRoutes(app)
 
-	// Perintahkan Gin untuk melayani request
+	// Biarkan Gin menangani request dari Vercel
 	app.ServeHTTP(w, r)
 }
