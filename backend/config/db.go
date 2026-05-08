@@ -9,22 +9,24 @@ import (
 var DB *gorm.DB
 
 func ConnectDatabase() {
-	// Ganti sesuai kredensial MySQL lokal kamu
-	username := "root"
-	password := ""
-	host := "127.0.0.1"
-	port := "3306"
-	dbName := "el_cafe_db"
+	// 1. Masukkan data dari dashboard TiDB Cloud tadi
+	username := "3vUPjF1Am6a3JYE.root"
+	password := "1iYnXUCWWJ4zfj0J"
+	host     := "gateway01.ap-southeast-1.prod.aws.tidbcloud.com"
+	port     := "4000"
+	database := "test"
 
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", 
-		username, password, host, port, dbName)
-	
-	database, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	// 2. Format DSN khusus TiDB Cloud (Wajib ada ?tls=true)
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local&tls=true",
+		username, password, host, port, database)
 
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
-		panic("Gagal terhubung ke database!")
+		// Jika gagal, terminal akan memberi tahu alasannya
+		fmt.Printf("Gagal koneksi ke TiDB Cloud: %v\n", err)
+		panic(err)
 	}
 
-	DB = database
-	fmt.Println("Koneksi Database Berhasil!")
+	DB = db
+	fmt.Println("Koneksi Berhasil! Data EL CAFÉ sekarang tersimpan di Cloud Singapore.")
 }
