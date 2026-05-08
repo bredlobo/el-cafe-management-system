@@ -1,7 +1,7 @@
 package routes
 
 import (
-    "el-cafe-backend/controllers" // Pastikan nama module sesuai dengan go.mod kamu
+    "el-cafe-backend/_controllers" // Pastikan nama module sesuai dengan go.mod kamu
     "github.com/gin-contrib/cors"
     "github.com/gin-gonic/gin"
 )

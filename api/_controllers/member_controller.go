@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"el-cafe-backend/config"
-	"el-cafe-backend/models"
+	"el-cafe-backend/_config"
+	"el-cafe-backend/_models"
 	"net/http"
 	"time"
 

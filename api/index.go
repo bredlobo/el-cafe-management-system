@@ -3,8 +3,8 @@ package handler
 import (
 	"net/http"
 	"github.com/gin-gonic/gin"
-	"el-cafe-backend/config" 
-	"el-cafe-backend/routes"
+	"el-cafe-backend/_config" 
+	"el-cafe-backend/_routes"
 )
 
 // Handler adalah entry point untuk Vercel Serverless
